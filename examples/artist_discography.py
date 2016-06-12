@@ -12,17 +12,34 @@ def get_artist(name):
     else:
         return None
 
+
 def show_album_tracks(album):
+    """
+    Show tracks of album
+    """
     tracks = []
     results = sp.album_tracks(album['id'])
     tracks.extend(results['items'])
     while results['next']:
         results = sp.next(results)
         tracks.extend(results['items'])
+
     for track in tracks:
-        print('  ', track['name'])
-        print()
-        print(track)
+        print(track['track_number'], track['name'], milliseconds_to_hms(track['duration_ms']))
+
+
+def milliseconds_to_hms(milliseconds):
+    """
+    Takes a number of milliseconds and return it into string of hours, minutes and seconds
+    """
+    seconds, _ = divmod(milliseconds, 1000)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    duration = (hours, minutes, seconds)
+    duration_str = '{:02d}:{:02d}:{:02d}'.format(*duration)
+
+    return duration_str
+    
 
 def show_artist_albums(id):
     albums = []
