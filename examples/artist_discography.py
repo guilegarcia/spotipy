@@ -13,16 +13,18 @@ def get_artist(name):
         return None
 
 def show_album_tracks(album):
+    """
+    Show tracks of album
+    """
     tracks = []
     results = sp.album_tracks(album['id'])
     tracks.extend(results['items'])
     while results['next']:
         results = sp.next(results)
         tracks.extend(results['items'])
+
     for track in tracks:
-        print('  ', track['name'])
-        print()
-        print(track)
+        print(track['track_number'], track['name'], track['duration_ms'])
 
 def show_artist_albums(id):
     albums = []
